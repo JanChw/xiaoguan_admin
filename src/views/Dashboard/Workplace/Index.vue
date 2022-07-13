@@ -70,23 +70,11 @@
     </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="ts" setup name="Workplace">
 import { useLayoutStore } from '/@/store/modules/layout'
 import Chart from '/@/views/Dashboard/Workplace/_Components/Chart.vue'
 import List from '/@/views/Dashboard/Workplace/_Components/List.vue'
 
-export default defineComponent({
-    name: 'Workplace',
-    components: {
-        List,
-        Chart
-    },
-    setup() {
-        const { getUserInfo } = useLayoutStore()
-        return {
-            user: getUserInfo
-        }
-    }
-})
+const user = useLayoutStore().getUserInfo
+       
 </script>

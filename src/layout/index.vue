@@ -41,8 +41,8 @@
     </div>
 </template>
 
-<script lang='ts'>
-import { defineComponent, onMounted } from 'vue'
+<script lang='ts' setup>
+import { onMounted } from 'vue'
 import LayoutContent from '/@/layout/components/content.vue'
 import LayoutMenubar from '/@/layout/components/menubar.vue'
 import LayoutNavbar from '/@/layout/components/navbar.vue'
@@ -52,36 +52,18 @@ import { throttle } from '/@/utils/tools'
 import { useLayoutStore } from '/@/store/modules/layout'
 import icon from '/@/assets/img/icon.png'
 
-export default defineComponent ({
-    name: 'Layout',
-    components: {
-        LayoutContent,
-        LayoutMenubar,
-        LayoutNavbar,
-        LayoutTags,
-        LayoutSideSetting
-    },
-    setup() {
-        const { changeDeviceWidth, changeCollapsed, getMenubar, getSetting } = useLayoutStore()
+const { changeDeviceWidth, changeCollapsed, getMenubar, getSetting } = useLayoutStore()
 
-        onMounted(async() => {
-            changeDeviceWidth()
-            const throttleFn = throttle(300)
-            let throttleF = async function() {
-                await throttleFn()
-                changeDeviceWidth()
-            }
-            window.addEventListener('resize', throttleF, true)
-        })
-
-        return {
-            getMenubar,
-            getSetting,
-            changeCollapsed,
-            icon
-        }
+onMounted(async() => {
+    changeDeviceWidth()
+    const throttleFn = throttle(300)
+    let throttleF = async function() {
+        await throttleFn()
+        changeDeviceWidth()
     }
+    window.addEventListener('resize', throttleF, true)
 })
+
 </script>
 
 <style lang='postcss' scoped>

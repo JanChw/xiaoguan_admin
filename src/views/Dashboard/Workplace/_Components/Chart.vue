@@ -17,8 +17,8 @@
         <div ref='chartDom2' class='w-full h-64' />
     </el-card>
 </template>
-<script lang='ts'>
-import { defineComponent, onMounted, ref } from 'vue'
+<script lang='ts' setup>
+import { onMounted, ref } from 'vue'
 import { echarts, ECOption } from '/@/components/Echart'
 
 
@@ -114,34 +114,19 @@ const chartPie:() => ECOption = () => {
 }
 
 // 图标初始化
-const chartInit = () => {
-    const chartDom = ref(null)
-    const chartDom2 = ref(null)
-    onMounted(() => {
-        const optionsArray:echarts.ECharts[] = []
-        let myChart = echarts.init(chartDom.value as unknown as HTMLElement)
-        myChart.setOption(chartRadar())
-        optionsArray.push(myChart)
-        myChart = echarts.init(chartDom2.value as unknown as HTMLElement)
-        myChart.setOption(chartPie())
-        optionsArray.push(myChart)
-        window.onresize = () => {
-            optionsArray.forEach(v => v.resize())
-        }
-    })
-    return {
-        chartDom,
-        chartDom2
-    }
-}
-
-
-export default defineComponent({
-    setup() {
-        
-        return {
-            ...chartInit()
-        }
+const chartDom = ref(null)
+const chartDom2 = ref(null)
+onMounted(() => {
+    const optionsArray:echarts.ECharts[] = []
+    let myChart = echarts.init(chartDom.value as unknown as HTMLElement)
+    myChart.setOption(chartRadar())
+    optionsArray.push(myChart)
+    myChart = echarts.init(chartDom2.value as unknown as HTMLElement)
+    myChart.setOption(chartPie())
+    optionsArray.push(myChart)
+    window.onresize = () => {
+        optionsArray.forEach(v => v.resize())
     }
 })
+
 </script>

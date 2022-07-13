@@ -16,28 +16,22 @@
     </el-col>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-export default defineComponent({
-    name: 'CardListItem',
-    props: {
-        width: {
-            type: String,
-            default: '80px'
-        },
-        isRequire: {
-            type: Boolean,
-            default: false
-        },
-        prop: {
-            type: String,
-            default: ''
-        }
+<script lang="ts" setup name="CardListItem">
+const props = defineProps({
+    width: {
+        type: String,
+        default: '80px'
     },
-    setup() {
-        return {}
+    isRequire: {
+        type: Boolean,
+        default: false
+    },
+    prop: {
+        type: String,
+        default: ''
     }
 })
+
 </script>
 
     

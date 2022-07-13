@@ -13,34 +13,25 @@
     </el-scrollbar>
 </template>
 
-<script lang='ts'>
-import { computed, defineComponent, reactive, watch } from 'vue'
+<script lang='ts' setup name="LayoutContent">
+import { computed, reactive, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useLayoutStore } from '/@/store/modules/layout'
 
-export default defineComponent ({
-    name: 'LayoutContent',
-    setup() {
-        const route = useRoute()
-        const { getSetting, getTags } = useLayoutStore()
+const route = useRoute()
+const { getSetting, getTags } = useLayoutStore()
+const setting = getSetting
+const key = computed(() => route.path)
 
-        const key = computed(() => route.path)
-
-        let data = reactive({
-            cachedViews: [...getTags.cachedViews]
-        })
-        // keep-alive的include重新赋值，解决bug https://github.com/vuejs/vue-next/issues/2550
-        watch(
-            () => getTags.cachedViews.length,
-            () => data.cachedViews = [...getTags.cachedViews]
-        )
-        return {
-            key,
-            data,
-            setting: getSetting
-        }
-    }
+let data = reactive({
+    cachedViews: [...getTags.cachedViews]
 })
+// keep-alive的include重新赋值，解决bug https://github.com/vuejs/vue-next/issues/2550
+watch(
+    () => getTags.cachedViews.length,
+    () => data.cachedViews = [...getTags.cachedViews]
+)
+
 </script>
 
 <style lang='postcss' scoped>

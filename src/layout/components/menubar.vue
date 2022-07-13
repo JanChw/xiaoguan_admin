@@ -18,8 +18,8 @@
     </el-menu>
 </template>
 
-<script lang='ts'>
-import { defineComponent, computed } from 'vue'
+<script lang='ts' setup name="LayoutMenubar">
+import { computed } from 'vue'
 import MenubarItem from '/@/layout/components/menubarItem.vue'
 import { useRoute, useRouter } from 'vue-router'
 import { IMenubarList } from '/@/type/store/layout'
@@ -45,34 +45,20 @@ const filterMenubar = (menuList:IMenubarList[]) => {
     return f(menuList)
 }
 
-export default defineComponent ({
-    name: 'LayoutMenubar',
-    components: {
-        MenubarItem
-    },
-    setup() {
-        const route = useRoute()
-        const router = useRouter()
-        const { getMenubar, setRoutes, changeCollapsed, getSetting } = useLayoutStore()
+const route = useRoute()
+const router = useRouter()
+const { getMenubar, setRoutes, changeCollapsed, getSetting } = useLayoutStore()
 
-        const filterMenubarData = filterMenubar(getMenubar.menuList)
-        setRoutes(filterMenubarData)
+const filterMenubarData = filterMenubar(getMenubar.menuList)
+setRoutes(filterMenubarData)
 
-        const activeMenu = computed(() => {
-            if(route.meta.activeMenu) return route.meta.activeMenu
-            return route.path
-        })
-        const onOpenChange = (d: any) => {
-            router.push({ path: d })
-            getMenubar.status === 2 && changeCollapsed()
-        }
-        return {
-            getMenubar,
-            filterMenubarData,
-            activeMenu,
-            onOpenChange,
-            getSetting
-        }
-    }
+const activeMenu = computed(() => {
+    if(route.meta.activeMenu) return route.meta.activeMenu
+    return route.path
 })
+const onOpenChange = (d: any) => {
+    router.push({ path: d })
+    getMenubar.status === 2 && changeCollapsed()
+}
+       
 </script>

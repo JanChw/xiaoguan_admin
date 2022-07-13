@@ -21,23 +21,16 @@
     </el-menu-item>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from 'vue'
+<script lang="ts" setup name="MenubarItem">
+import { PropType } from 'vue'
 import { IMenubarList } from '/@/type/store/layout'
 import { UseElIcon } from '/@/components/SvnIcon/elIcon'
 
-export default defineComponent({
-    name: 'MenubarItem',
-    props: {
-        menuList: {
-            type: Object as PropType<IMenubarList>,
-            default: () => {return {}}
-        }
-    },
-    setup() {
-        return {
-            UseElIcon
-        }
+const props = defineProps({
+    menuList: {
+        type: Object as PropType<IMenubarList>,
+        default: () => {return {}}
     }
 })
+   
 </script>

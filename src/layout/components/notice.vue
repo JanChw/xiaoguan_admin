@@ -34,29 +34,19 @@
     </el-dropdown>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-import List, { IList } from '/@/components/List/index.vue'
+<script lang="ts" setup name="Notice">
+import List from '/@/components/List/index.vue'
+import { IList } from '/@/type/components/index.interface'
 
-export default defineComponent({
-    name: 'Notice',
-    components: {
-        List
-    },
-    setup() {
-        const data:IList[] = [
-            { imgUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png', subTitle: '斗通关无际县军连用知政以该果思快领a。', time: '2021/01/28 15:21:32', href: 'javascript:;' },
-            { imgUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png', subTitle: '斗通关无际县军连用知政以该果思快领a。', time: '2021/01/28 15:21:32' },
-            { imgUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png', subTitle: '斗通关无际县军连用知政以该果思快领a。', time: '2021/01/28 15:21:32' },
-            { imgUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png', subTitle: '斗通关无际县军连用知政以该果思快领a。', time: '2021/01/28 15:21:32' },
-            { imgUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png', subTitle: '斗通关无际县军连用知政以该果思快领a。', time: '2021/01/28 15:21:32' },
-            { imgUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png', subTitle: '斗通关无际县军连用知政以该果思快领a。', time: '2021/01/28 15:21:32' }
-        ]
-        return {
-            data
-        }
-    }
-})
+const data:IList[] = [
+    { imgUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png', subTitle: '斗通关无际县军连用知政以该果思快领a。', time: '2021/01/28 15:21:32', href: 'javascript:;' },
+    { imgUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png', subTitle: '斗通关无际县军连用知政以该果思快领a。', time: '2021/01/28 15:21:32' },
+    { imgUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png', subTitle: '斗通关无际县军连用知政以该果思快领a。', time: '2021/01/28 15:21:32' },
+    { imgUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png', subTitle: '斗通关无际县军连用知政以该果思快领a。', time: '2021/01/28 15:21:32' },
+    { imgUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png', subTitle: '斗通关无际县军连用知政以该果思快领a。', time: '2021/01/28 15:21:32' },
+    { imgUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png', subTitle: '斗通关无际县军连用知政以该果思快领a。', time: '2021/01/28 15:21:32' }
+]
+     
 </script>
 
 <style lang='postcss' scoped>

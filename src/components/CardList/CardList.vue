@@ -22,8 +22,8 @@
     </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from 'vue'
+<script lang="ts" setup name="CardList">
+import { PropType } from 'vue'
 import { useLayoutStore } from '/@/store/modules/layout'
 
 interface IListItem {
@@ -34,42 +34,36 @@ interface IListItem {
 }
 type IType = 'default' | 'keyvalue'
 
-export default defineComponent({
-    name: 'CardList',
-    props: {
-        type: {
-            type: String as PropType<IType>,
-            default: 'default'
-        },
-        listItem: {
-            type: Array as PropType<Array<IListItem>>,
-            default: () => []
-        },
-        title: {
-            type: String,
-            default: '标题'
-        },
-        showHeader: {
-            type: Boolean,
-            default: false
-        },
-        // 是否不换行
-        isNowrap: {
-            type: Boolean,
-            default: true
-        },
-        showListstyle: {
-            type: Boolean,
-            default: true
-        }
+const props = defineProps({
+    type: {
+        type: String as PropType<IType>,
+        default: 'default'
     },
-    setup() {
-        const { color } = useLayoutStore().getSetting
-        return {
-            color
-        }
+    listItem: {
+        type: Array as PropType<Array<IListItem>>,
+        default: () => []
+    },
+    title: {
+        type: String,
+        default: '标题'
+    },
+    showHeader: {
+        type: Boolean,
+        default: false
+    },
+    // 是否不换行
+    isNowrap: {
+        type: Boolean,
+        default: true
+    },
+    showListstyle: {
+        type: Boolean,
+        default: true
     }
 })
+
+const { color } = useLayoutStore().getSetting
+
 </script>
 
 <style lang="postcss" scoped>

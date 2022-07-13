@@ -32,7 +32,14 @@
                 <slot name='header' />
             </template>
             <el-row>
-                <el-col v-for='(val,index) in data' :key='index' :xs='24' :sm='12' :md='8' class='c-list-card-body h-40 text-sm text-gray-400'>
+                <el-col
+                    v-for='(val,index) in data'
+                    :key='index'
+                    :xs='24'
+                    :sm='12'
+                    :md='8'
+                    class='c-list-card-body h-40 text-sm text-gray-400'
+                >
                     <div v-if='val.title' class='flex items-center py-1 text-black font-medium'>
                         <div>
                             <el-avatar v-if='val.imgUrl' size='small' :src='val.imgUrl' />
@@ -57,40 +64,24 @@
     </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from 'vue'
+<script lang="ts" setup name="AList">
+import { PropType } from 'vue'
 import { UseElIcon } from '/@/components/SvnIcon/elIcon'
+import { IList } from '/@/type/components/index.interface'
 
-export interface IList {
-    imgUrl?: string
-    iconClass?: string
-    title?: string
-    subTitle?: string
-    href?:string
-    tag?:string
-    time?:string
-}
+type IListType = 'default' | 'card'
 
-export type IListType = 'default' | 'card'
-
-export default defineComponent({
-    name: 'List',
-    props: {
-        data: {
-            type: Array as PropType<Array<IList>>,
-            default: () => []
-        },
-        type: {
-            type: String as PropType<IListType>,
-            default: 'default'
-        }
+const props = defineProps({
+    data: {
+        type: Array as PropType<Array<IList>>,
+        default: () => []
     },
-    setup() {
-        return {
-            UseElIcon
-        }
+    type: {
+        type: String as PropType<IListType>,
+        default: 'default'
     }
 })
+
 </script>
 
 <style lang='postcss' scoped>

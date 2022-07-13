@@ -33,45 +33,37 @@
     </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, SetupContext } from 'vue'
+<script lang="ts" setup name="TableSearch">
+import { ref } from 'vue'
 import { slide } from '/@/utils/animate'
-export default defineComponent({
-    name: 'TableSearch',
-    props: {
-        currentPage: {
-            type: Number,
-            default: 1
-        },
-        pageSize: {
-            type: Number,
-            default: 10
-        },
-        total: {
-            type: Number,
-            default: 0
-        }
+
+const props = defineProps({
+    currentPage: {
+        type: Number,
+        default: 1
     },
-    emits: ['size-change', 'current-change'],
-    setup(props, context: SetupContext) {
-        const isShow = ref(false)
-        const handleSizeChange = (v:any) => context.emit('size-change', v)
-        const handleCurrentChange = (v: any) => context.emit('current-change', v)
-        const toggleSearch = () => {
-            isShow.value = !isShow.value
-            slide(searchEl, isShow.value)
-        }
-        const searchEl = ref(null)
-        return {
-            isShow,
-            handleSizeChange,
-            handleCurrentChange,
-            searchEl,
-            toggleSearch
-        }
+    pageSize: {
+        type: Number,
+        default: 10
+    },
+    total: {
+        type: Number,
+        default: 0
     }
-        
 })
+
+const searchEl = ref(null)
+   
+const emit = defineEmits(['size-change', 'current-change'])
+
+const isShow = ref(false)
+const handleSizeChange = (v:any) => emit('size-change', v)
+const handleCurrentChange = (v: any) => emit('current-change', v)
+const toggleSearch = () => {
+    isShow.value = !isShow.value
+    slide(searchEl, isShow.value)
+}
+        
 </script>
 
 <style lang="postcss" scoped>

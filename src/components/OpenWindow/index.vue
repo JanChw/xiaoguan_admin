@@ -21,29 +21,24 @@
     </transition>
 </template>
 
-<script lang="ts">
-import { defineComponent, SetupContext } from 'vue'
-export default defineComponent({
-    name: 'SelectPage',
-    props: {
-        isShow: {
-            type: Boolean,
-            default: false
-        },
-        title: {
-            type: String,
-            default: '新窗口'
-        }
+<script lang="ts" setup name="SelectPage">
+import { useSlots } from 'vue'
+const props = defineProps({
+    isShow: {
+        type: Boolean,
+        default: false
     },
-    emits: ['update:show'],
-    setup(props, context: SetupContext) {
-        const close = () => context.emit('update:show', !props.isShow)
-        return {
-            close,
-            slots: context.slots
-        }
+    title: {
+        type: String,
+        default: '新窗口'
     }
 })
+const emit = defineEmits(['update:show'])
+
+const slots = useSlots()
+
+const close = () => emit('update:show', !props.isShow)
+       
 </script>
 
 <style lang="postcss" scoped>

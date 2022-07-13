@@ -11,28 +11,20 @@
                 <router-link to='/' class='bullshit__return-home'>回首页</router-link>
             </el-col>
             <el-col :span='12'>
-                <img :src='errGif' width='313' height='428' alt='Girl has dropped her ice cream.'>
+                <img :src='_errGif' width='313' height='428' alt='Girl has dropped her ice cream.'>
             </el-col>
         </el-row>
     </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="ts" setup name="401">
 import errGif from '/@/assets/img/401.gif'
 import { useLayoutStore } from '/@/store/modules/layout'
-export default defineComponent({
-    name: '401',
-    setup() {
-        const { color } = useLayoutStore().getSetting
-        
-        return {
-            errGif: `${errGif}?${+new Date()}`,
-            ewizardClap: 'https://wpimg.wallstcn.com/007ef517-bafd-4066-aae4-6883632d9646',
-            color
-        }
-    }
-})
+
+const { color } = useLayoutStore().getSetting
+const _errGif = `${errGif}?${+new Date()}`
+const ewizardClap = 'https://wpimg.wallstcn.com/007ef517-bafd-4066-aae4-6883632d9646'
+
 </script>
 
 <style lang='postcss' scoped>

@@ -22,25 +22,18 @@
         </div>
     </div>
 </template>
-<script lang='ts'>
-import { defineComponent } from 'vue'
+<script lang='ts' setup name="404">
+
 import { useLayoutStore } from '/@/store/modules/layout'
 
 import err404 from '/@/assets/img/404.png'
 import errCloud from '/@/assets/img/404_cloud.png'
 
-export default defineComponent({
-    name: '404',
-    setup() {
-        const { color } = useLayoutStore().getSetting
-        return {
-            err404,
-            errCloud,
-            message: 'The webmaster said that you can not enter this page...',
-            color
-        }
-    }
-})
+
+const { color } = useLayoutStore().getSetting
+       
+const message = 'The webmaster said that you can not enter this page...'
+   
 </script>
 
 <style lang='postcss' scoped>

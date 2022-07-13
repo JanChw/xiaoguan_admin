@@ -28,7 +28,7 @@
         <el-dropdown>
             <span class='el-dropdown-link flex flex-center px-2'>
                 <el-avatar :size='30' src='https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png' />
-                <span class='ml-2'>{{ userInfo.name }}</span>
+                <span class='ml-2'>{{ getUserInfo.name }}</span>
                 <el-icon><el-icon-arrow-down /></el-icon>
             </span>
             <template #dropdown>
@@ -50,10 +50,10 @@
     </div>
 </template>
 
-<script lang='ts'>
-import { defineComponent, reactive, watch } from 'vue'
+<script lang='ts' setup name="LayoutNavbar">
+import { reactive, watch } from 'vue'
 import { useLayoutStore } from '/@/store/modules/layout'
-import { useRoute, RouteLocationNormalizedLoaded } from 'vue-router'
+import { useRoute } from 'vue-router'
 import Notice from '/@/layout/components/notice.vue'
 import Screenfull from '/@/layout/components/screenfull.vue'
 import Search from '/@/layout/components/search.vue'
@@ -66,49 +66,29 @@ interface IBreadcrumbList {
     title: string | symbol
 }
 // 面包屑导航
-const breadcrumb = (route: RouteLocationNormalizedLoaded) => {
-    const fn = () => {
-        const breadcrumbList:Array<IBreadcrumbList> = []
-        const notShowBreadcrumbList = ['Dashboard', 'RedirectPage'] // 不显示面包屑的导航
-        if(route.matched[0] && (notShowBreadcrumbList.includes(route.matched[0].name as string))) return breadcrumbList
-        route.matched.forEach(v => {
-            const obj:IBreadcrumbList = {
-                title: v.meta.title as string,
-                path: v.path
-            }
-            breadcrumbList.push(obj)
-        })
-        return breadcrumbList
-    }
-    let data = reactive({
-        breadcrumbList: fn()
+const { getMenubar, getUserInfo, changeCollapsed, logout, getSetting } = useLayoutStore()
+const route = useRoute()
+
+const data = reactive({
+    breadcrumbList: fn()
+})
+
+watch(() => route.path, () => data.breadcrumbList = fn())
+
+function fn() {
+    const breadcrumbList:Array<IBreadcrumbList> = []
+    const notShowBreadcrumbList = ['Dashboard', 'RedirectPage'] // 不显示面包屑的导航
+    if(route.matched[0] && (notShowBreadcrumbList.includes(route.matched[0].name as string))) return breadcrumbList
+    route.matched.forEach(v => {
+        const obj:IBreadcrumbList = {
+            title: v.meta.title as string,
+            path: v.path
+        }
+        breadcrumbList.push(obj)
     })
-    watch(() => route.path, () => data.breadcrumbList = fn())
-    return { data }
+    return breadcrumbList
 }
 
-export default defineComponent ({
-    name: 'LayoutNavbar',
-    components: {
-        Notice,
-        Search,
-        Screenfull,
-        LayoutMenubar
-    },
-    setup() {
-        const { getMenubar, getUserInfo, changeCollapsed, logout, getSetting } = useLayoutStore()
-        const route = useRoute()
-        return {
-            getMenubar,
-            userInfo: getUserInfo,
-            changeCollapsed,
-            logout,
-            ...breadcrumb(route),
-            getSetting,
-            icon
-        }
-    }
-})
 </script>
 
 <style lang='postcss' scoped>
