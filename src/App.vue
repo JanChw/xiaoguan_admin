@@ -4,8 +4,8 @@
     </ElConfigProvider>
 </template>
 
-<script lang='ts'>
-import { defineComponent, ref, Ref, watch } from 'vue'
+<script lang='ts' setup name="App">
+import { ref, Ref, watch } from 'vue'
 import locale from 'element-plus/lib/locale/lang/zh-cn'
 import { ElConfigProvider } from 'element-plus'
 import { changeThemeDefaultColor } from '/@/utils/changeThemeColor'
@@ -13,32 +13,20 @@ import { ITheme } from '/@/type/config/theme'
 import theme from '/@/config/theme'
 import { useLayoutStore } from '/@/store/modules/layout'
 
-export default defineComponent ({
-    name: 'App',
-    components: {
-        ElConfigProvider
-    },
-    setup() {
-        changeThemeDefaultColor()
-        const { getSetting } = useLayoutStore()
 
-        // 重新获取主题色
-        const f = () => {
-            let themeArray = theme()
-            return getSetting.theme >= themeArray.length ? themeArray[0] : themeArray[getSetting.theme]
-        }
+changeThemeDefaultColor()
+const { getSetting } = useLayoutStore()
 
-        let themeStyle:Ref<ITheme> = ref(f())
-        watch(() => getSetting.theme, () => themeStyle.value = f())
-        watch(() => getSetting.color.primary, () => themeStyle.value = f())
+// 重新获取主题色
+const f = () => {
+    let themeArray = theme()
+    return getSetting.theme >= themeArray.length ? themeArray[0] : themeArray[getSetting.theme]
+}
 
-        return {
-            locale,
-            themeStyle,
-            getSetting
-        }
-    }
-})
+let themeStyle:Ref<ITheme> = ref(f())
+watch(() => getSetting.theme, () => themeStyle.value = f())
+watch(() => getSetting.color.primary, () => themeStyle.value = f())
+
 </script>
 
 <style lang='postcss'>

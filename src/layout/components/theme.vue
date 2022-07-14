@@ -8,25 +8,17 @@
         />
     </div>
 </template>
-<script lang='ts'>
-import { defineComponent, ref } from 'vue'
+<script lang='ts' setup name="LayoutTheme">
+import { ref } from 'vue'
 import { useLayoutStore } from '/@/store/modules/layout'
 import changeThemeColor from '/@/utils/changeThemeColor'
 
-export default defineComponent({
-    name: 'LayoutTheme',
-    setup() {
-        const { getSetting, removeAllCachedViews } = useLayoutStore()
-        const defaultTheme = ref(getSetting.color.primary)
+const { getSetting, removeAllCachedViews } = useLayoutStore()
+const defaultTheme = ref(getSetting.color.primary)
 
-        const changeTheme = () => {
-            changeThemeColor(defaultTheme.value)
-            removeAllCachedViews()
-        }
-        return {
-            defaultTheme,
-            changeTheme
-        }
-    }
-})
+const changeTheme = () => {
+    changeThemeColor(defaultTheme.value)
+    removeAllCachedViews()
+}
+
 </script>

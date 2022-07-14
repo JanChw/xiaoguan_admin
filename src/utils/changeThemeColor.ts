@@ -76,8 +76,9 @@ export default async function changeThemeColor(theme: string): Promise<void> {
     const { changeThemeColor } = useLayoutStore()
     const { themeCluster, originalCluster } = getTheme(theme, prevTheme)
     if (!chalk.value) {
-        // const url = `https://unpkg.com/element-plus@${version}/dist/index.css`
-        const url = `/element-plus/index@${version}.css`
+        // TODO:样式引入
+        const url = `https://unpkg.com/element-plus@${version}/dist/index.css`
+        // const url = `/element-plus/index@${version}.css`
         await getCSSString(url, chalk)
     }
     originalCluster.forEach((color, index) => {

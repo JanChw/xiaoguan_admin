@@ -25,14 +25,27 @@
     </ul>
 </template>
 
-<script lang="ts">
-import { defineComponent, nextTick, ref, watch, onBeforeUpdate, onMounted, reactive, Ref, ComponentInternalInstance } from 'vue'
+<script lang="ts" setup name="LayoutTags">
+import { nextTick, ref, watch, onBeforeUpdate, onMounted, reactive, Ref, ComponentInternalInstance } from 'vue'
 import { useLayoutStore } from '/@/store/modules/layout'
 import { useRoute } from 'vue-router'
 import { ITagsList } from '/@/type/store/layout'
 
+
+const { removeAllTagNav, addCachedViews, removeTagNav } = useLayoutStore()
+const route = useRoute()
+const removeTag = (v: any) => removeTagNav({ cPath: route.path, tagsList: v })
+
+const { menuPos, contextRightMenu, refresh, rightMenuEl, closeOther } = rightMenu()
+
+const { tagsList, scrollbar, getTagsDom } = tagScroll()
+        
+onMounted(() => {
+    addCachedViews({ name: route.name as string, noCache: route.meta.noCache as boolean })
+})
+     
 // 右键菜单
-const rightMenu = () => {
+function rightMenu() {
     const { removeOtherTagNav, refreshViews } = useLayoutStore()
     const route = useRoute()
     const menuPos = reactive({
@@ -65,7 +78,7 @@ const rightMenu = () => {
 }
 
 // 标签页滚动
-const tagScroll = () => {
+function tagScroll() {
     const { getTags } = useLayoutStore()
     const { tagsList, cachedViews } = getTags
     const scrollbar:Ref<{wrap$:HTMLElement, update():void} | null> = ref(null)
@@ -94,23 +107,4 @@ const tagScroll = () => {
     })
     return { tagsList, scrollbar, layoutTagsItem, cachedViews, getTagsDom }
 }
-export default defineComponent({
-    name: 'LayoutTags',
-    setup() {
-        const { removeAllTagNav, addCachedViews, removeTagNav } = useLayoutStore()
-        const route = useRoute()
-        const removeTag = (v: any) => removeTagNav({ cPath: route.path, tagsList: v })
-        
-        onMounted(() => {
-            addCachedViews({ name: route.name as string, noCache: route.meta.noCache as boolean })
-        })
-        
-        return {
-            removeTag,
-            removeAllTagNav,
-            ...tagScroll(),
-            ...rightMenu()
-        }
-    }
-})
 </script>
