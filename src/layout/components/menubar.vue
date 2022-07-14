@@ -48,7 +48,7 @@ const filterMenubar = (menuList:IMenubarList[]) => {
 const route = useRoute()
 const router = useRouter()
 const { getMenubar, setRoutes, changeCollapsed, getSetting } = useLayoutStore()
-
+console.log(getMenubar.menuList)
 const filterMenubarData = filterMenubar(getMenubar.menuList)
 setRoutes(filterMenubarData)
 

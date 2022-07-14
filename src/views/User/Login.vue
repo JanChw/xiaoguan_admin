@@ -1,28 +1,26 @@
 <template>
-    <div class='w-screen h-screen bg-gray-800'>
-        <div class='layout-login' @keyup='enterSubmit'>
-            <h3 class='text-2xl font-semibold text-gray-100 text-center mb-6'>系统登陆</h3>
+    <div class='w-screen h-screen'>
+        <div class='layout-login flex-1' @keyup='enterSubmit'>
+            <h3 class='text-2xl font-semibold text-gray-300 text-center mb-8'>系统登陆</h3>
             <el-form ref='ruleForm' label-position='right' label-width='80px' :model='form' :rules='rules'>
-                <el-form-item class='mb-6 -ml-20' prop='name'>
-                    <el-input v-model='form.name' placeholder='请输入用户名' prefix-icon='el-icon-user' />
+                <el-form-item class='' prop='name'>
+                    <el-input v-model='form.name' placeholder='请输入用户名' size='large' prefix-icon='el-icon-user' />
                 </el-form-item>
-                <el-form-item class='mb-6 -ml-20' prop='pwd'>
-                    <el-input v-model='form.pwd' placeholder='请输入密码' prefix-icon='el-icon-lock' show-password />
+                <el-form-item class='' prop='pwd'>
+                    <el-input v-model='form.pwd' placeholder='请输入密码' size='large' prefix-icon='el-icon-lock' show-password />
                 </el-form-item>
-                <el-form-item class='mb-6 -ml-20'>
-                    <el-button type='primary' class='w-full' @click='onSubmit'>登录</el-button>
-                </el-form-item>
-                
-                <div class='flex justify-between'>
-                    <div class='text-gray-300'>
-                        <p class='leading-6 text-sm'><span class='w-24 inline-block'>账号: admin</span> 密码: admin</p>
-                        <p class='leading-6 text-sm'><span class='w-24 inline-block'>账号: dev</span> 密码: dev</p>
-                        <p class='leading-6 text-sm'><span class='w-24 inline-block'>账号: test</span> 密码: test</p>
-                    </div>
-                    <div><el-button type='primary'>第三方登录</el-button></div>
+                <div>
+                    <el-button type='primary' size='large' class='w-full h-47' @click='onSubmit'>登录</el-button>
                 </div>
+                
+                
+                <div class='flex justify-end'>
+                    <el-checkbox label='记住我' size='large' />
+                </div>
+
             </el-form>
         </div>
+        
     </div>
 </template>
 
@@ -97,15 +95,41 @@ export default defineComponent({
 <style lang='postcss' scoped>
 .layout-login {
     padding-top: 200px;
-    width: 400px;
+    width: 500px;
     margin: 0 auto;
 
     ::v-deep(.el-input__inner) {
-        border: 1px solid hsla(0, 0%, 100%, 0.1);
-        background: rgba(0, 0, 0, 0.1);
+        border: 2px solid hsla(0, 0%, 100%, 0.1);
         border-radius: 5px;
-        color: #ddd;
+       
     }
+    ::v-deep(.el-input__inner), ::v-deep(.el-button--large) {
+         height:47px;
+         font-size: 15px;
+    }
+
+    ::v-deep(.el-form-item__content) {
+        margin-left: 0!important;
+        margin-bottom: 30px;
+    }
+    ::v-deep(.el-form-item__content:hover) {
+         box-shadow: 2px 3px 4px lightgray;
+         
+    }
+    ::v-deep(.el-icon) {
+        color: black;
+        font-size: 21px!important;
+    }
+
+    ::v-deep(.el-form-item__error) {
+        margin: 7px;
+        font-size: 14px;
+    }
+
+    ::v-deep(.el-button:hover) {
+        box-shadow: 2px 3px 4px var(--el-color-primary);
+        background-color: var(--el-color-primary);
+    } 
 }
 
 </style>

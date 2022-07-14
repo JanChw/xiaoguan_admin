@@ -88,15 +88,15 @@ export const route:Array<IMenubarList> = [
         component: 'ProjectImport',
         meta: { title: '项目导入', icon: 'el-icon-help' }
     },
-    {
-        id: 3,
-        parentId: 0,
-        name: 'Nav',
-        path: '/Nav',
-        component: 'Layout',
-        redirect: '/Nav/SecondNav/ThirdNav',
-        meta: { title: '多级导航', icon: 'el-icon-picture' }
-    },
+    // {
+    //     id: 3,
+    //     parentId: 0,
+    //     name: 'Nav',
+    //     path: '/Nav',
+    //     component: 'Layout',
+    //     redirect: '/Nav/SecondNav/ThirdNav',
+    //     meta: { title: '多级导航', icon: 'el-icon-picture' }
+    // },
     {
         id: 30,
         parentId: 3,
@@ -188,5 +188,13 @@ export const route:Array<IMenubarList> = [
         path: '/Permission/Directive',
         component: 'Directive',
         meta: { title: '指令管理', icon: 'el-icon-goods' }
+    },
+    {
+        id: 101,
+        parentId: 0,
+        name: 'Foods',
+        path: '/Foods',
+        component: 'Foods',
+        meta: { title: '菜品管理', icon: 'el-icon-phone' }
     }
 ]
