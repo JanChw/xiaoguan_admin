@@ -11,6 +11,8 @@
     "stylelint": "npx stylelint **/*.{css,vue} --fix"
   },
   "dependencies": {
+    "@tinymce/tinymce-vue": "^5",
+    "browser-image-compression": "^2.0.0",
     "echarts": "^5.3.0",
     "element-plus": "^2.0.2",
     "vue": "^3.2.31"

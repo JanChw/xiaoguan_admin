@@ -8,6 +8,8 @@ const Components:IObject<() => Promise<typeof import('*.vue')>> = Object.assign(
     LayoutBlank: (() => import('/@/layout/blank.vue')) as unknown as () => Promise<typeof import('*.vue')>
 })
 
+console.log(Components)
+
 // 静态路由页面
 export const allowRouter:Array<IMenubarList> = [
     {
@@ -35,13 +37,13 @@ export const allowRouter:Array<IMenubarList> = [
         name: '文件管理',
         path: '',
         component: Components['Layout'],
-        redirect: '/files/show',
+        redirect: '/files/index',
         meta: { title: '文件管理', icon: 'el-icon-eleme' },
         children: [
             {
                 name: '文件展示',
-                path: '/files/show',
-                component: Components['Show'],
+                path: '/files/index',
+                component: Components['Files'],
                 meta: { title: '文件展示', icon: 'el-icon-tools' }
             },
             {
@@ -54,16 +56,41 @@ export const allowRouter:Array<IMenubarList> = [
     },
     {
         name: '内容管理',
-        path: '',
+        path: '/content',
         component: Components['Layout'],
-        redirect: '/content/foods',
         meta: { title: '内容管理', icon: 'el-icon-eleme' },
         children: [
             {
                 name: '菜品管理',
-                path: '/content/foods',
+                path: 'foods',
                 component: Components['Foods'],
-                meta: { title: '菜品管理', icon: 'el-icon-tools' }
+                meta: { title: '菜品管理', icon: 'el-icon-tools' },
+                children: [
+                    {
+                        name: '菜品展示',
+                        path: 'shows',
+                        component: Components['ShowFoods'],
+                        meta: { title: '菜品展示', icon: 'el-icon-tools' }
+                    },
+                    {
+                        name: '菜品详情',
+                        path: 'show',
+                        component: Components['ShowFood'],
+                        meta: { title: '菜品展示', icon: 'el-icon-tools' }
+                    },
+                    {
+                        name: '添加菜品',
+                        path: 'create',
+                        component: Components['CreateFood'],
+                        meta: { title: '添加菜品', icon: 'el-icon-tools' }
+                    },
+                    {
+                        name: '修改菜品',
+                        path: 'update',
+                        component: Components['UpdateFood'],
+                        meta: { title: '修改菜品', icon: 'el-icon-tools' }
+                    }
+                ]
             },
             {
                 name: '社区服务管理',
@@ -96,7 +123,7 @@ export const allowRouter:Array<IMenubarList> = [
     },
     {
         name: '系统管理',
-        path: '',
+        path: '/system/staff',
         component: Components['Layout'],
         redirect: '/system/staff',
         meta: { title: '系统管理', icon: 'el-icon-eleme' },

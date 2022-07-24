@@ -4,6 +4,7 @@ specifiers:
   '@babel/preset-env': ^7.12.11
   '@element-plus/icons-vue': ^0.2.7
   '@testing-library/jest-dom': ^5.11.8
+  '@tinymce/tinymce-vue': ^5
   '@types/jest': ^26.0.20
   '@types/mockjs': ^1.0.3
   '@types/node': ^14.14.20
@@ -19,6 +20,7 @@ specifiers:
   autoprefixer: ^10.1.0
   axios: ^0.21.1
   babel-jest: ^26.6.3
+  browser-image-compression: ^2.0.0
   echarts: ^5.3.0
   element-plus: ^2.0.2
   eslint: ^8.9.0
@@ -50,6 +52,8 @@ specifiers:
   vue-router: ^4.0.12
 
 dependencies:
+  '@tinymce/tinymce-vue': 5.0.0_vue@3.2.37
+  browser-image-compression: 2.0.0
   echarts: 5.3.3
   element-plus: 2.2.9_vue@3.2.37
   vue: 3.2.37
@@ -1836,6 +1840,15 @@ packages:
       redent: 3.0.0
     dev: true
 
+  /@tinymce/tinymce-vue/5.0.0_vue@3.2.37:
+    resolution: {integrity: sha512-1HRCNa2eGdztOKShYAiHIry50LTU6YJG//qSP9AJElrXhb3BIBN0Bef6E56nZObVgwCgSmI4cnX35VU9D49aow==}
+    peerDependencies:
+      vue: ^3.0.0
+    dependencies:
+      tinymce: 5.10.5
+      vue: 3.2.37
+    dev: false
+
   /@tootallnate/once/1.1.2:
     resolution: {integrity: sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==}
     engines: {node: '>= 6'}
@@ -2868,6 +2881,12 @@ packages:
     dependencies:
       fill-range: 7.0.1
     dev: true
+
+  /browser-image-compression/2.0.0:
+    resolution: {integrity: sha512-kBlkZo13yOOfcmrPW0M0K/UdZPogIQj2gRvXIM3FktAnfW6VRq9aY2RI+F6O0x6DMj1Xm+WLGgWcFK8Fu/ddnw==}
+    dependencies:
+      uzip: 0.20201231.0
+    dev: false
 
   /browser-process-hrtime/1.0.0:
     resolution: {integrity: sha512-9o5UecI3GhkpM6DrXr69PblIuWxPKk9Y0jHBRhdocZ2y7YECBFCsHm79Pr3OyR2AvjhDkabFJaDJMYRazHgsow==}
@@ -8106,6 +8125,10 @@ packages:
     resolution: {integrity: sha512-fcwX4mndzpLQKBS1DVYhGAcYaYt7vsHNIvQV+WXMvnow5cgjPphq5CaayLaGsjRdSCKZFNGt7/GYAuXaNOiYCA==}
     dev: true
 
+  /tinymce/5.10.5:
+    resolution: {integrity: sha512-nFKtLhmoRtExBxUfv06JlkbQWux5D+d115vxSRAqUmccZdrtpFvOIYwZmikvulLdM9pfEpvO0B+RQ2qFV/+R7w==}
+    dev: false
+
   /tmpl/1.0.5:
     resolution: {integrity: sha512-3f0uOEAQwIqGuWW2MVzYg8fV/QNnc/IpuJNG837rLuczAaLVHslWHZQj4IGiEl5Hs3kkbhwL9Ab7Hrsmuj+Smw==}
     dev: true
@@ -8471,6 +8494,10 @@ packages:
     hasBin: true
     dev: true
     optional: true
+
+  /uzip/0.20201231.0:
+    resolution: {integrity: sha512-OZeJfZP+R0z9D6TmBgLq2LHzSSptGMGDGigGiEe0pr8UBe/7fdflgHlHBNDASTXB5jnFuxHpNaJywSg8YFeGng==}
+    dev: false
 
   /v8-compile-cache/2.3.0:
     resolution: {integrity: sha512-l8lCEmLcLYZh4nbunNZvQCJc5pv7+RCwa8q/LdUx8u7lsWvPDKmpodJAJNwkAhJC//dFY48KuIEmjtd4RViDrA==}

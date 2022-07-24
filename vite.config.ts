@@ -31,8 +31,15 @@ export default ({ command, mode }: ConfigEnv): UserConfigExport => {
             ])
         },
         server: {
-            proxy: env.VITE_PROXY ? proxy(JSON.parse(env.VITE_PROXY)) : {},
-            port: env.VITE_PORT
+            // proxy: env.VITE_PROXY ? proxy(JSON.parse(env.VITE_PROXY)) : {},
+            port: env.VITE_PORT,
+            proxy: {
+                '/api': {
+                    target: 'http://localhost:3000',
+                    changeOrigin: true,
+                    rewrite: (path) => path.replace(/^\/api/, '')
+                }
+            }
         },
         build: {
             // sourcemap: true,

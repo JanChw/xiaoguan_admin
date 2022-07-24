@@ -16,6 +16,7 @@ Object.keys(modules).forEach(key => {
     const indexMatch = nameMatch[1].match(/(.*)\/Index$/i)
     let name = indexMatch ? indexMatch[1] : nameMatch[1];
     [name] = name.split('/').splice(-1)
+    // console.log(name)
     components[name] = modules[key] as () => Promise<typeof import('*.vue')>
 })
 

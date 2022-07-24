@@ -36,6 +36,12 @@ watch(
 
 <style lang='postcss' scoped>
 
+
+::v-deep(.el-scrollbar__view) {
+    margin-top: 10px;
+    height:100%;
+    overflow-x: hidden;
+}
 ::v-deep(.el-card) {
     overflow: visible;
 }

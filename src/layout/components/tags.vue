@@ -1,5 +1,5 @@
 <template>
-    <div class='shadow border-b border-gray-100 px-3 overflow-hidden relative z-10'>
+    <div class='shadow border-b border-gray-100 px-3 overflow-hidden relative z-10 mt-1'>
         <el-scrollbar ref='scrollbar' wrap-class='scrollbar-wrapper'>
             <div class='layout-tags-container whitespace-nowrap'>
                 <span
