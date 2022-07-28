@@ -28,20 +28,13 @@
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue'
+import API from '/@/api'
 import type { UploadInstance, UploadFiles, UploadFile } from 'element-plus'
-import imageCompression from 'browser-image-compression'
 
-const url = '/api/files/uploads/test'
 
 const uploadRef = ref<UploadInstance>()
-let formData = new FormData()
+
 let _uploadFiles: UploadFiles = []
-const options = {
-    maxSizeMB: 1,
-    maxWidthOrHeight: 1280,
-    fileType: 'image/webp',
-    initialQuality: 0.75
-}
 
 
 const addFile = async(uploadFile: UploadFile, uploadFiles: UploadFiles) => {
@@ -53,20 +46,7 @@ const removeFile = async(uploadFile: UploadFile, uploadFiles: UploadFiles) => {
 }
 const submitUpload = async() => {
     const uploadRawFiles = _uploadFiles.map(uploadFile => uploadFile.raw)
-    const compressFilePromises = uploadRawFiles.map(rawFile => imageCompression(rawFile, options))
-    const uploadCompressFiles = await Promise.all(compressFilePromises)
-    uploadCompressFiles.forEach(file => {
-        formData.append('file', file, `${file.name}.webp`)
-    })
-
-    const response = await fetch(url, {
-        method: 'POST',
-        body: formData
-    }).catch(err => console.log(err))
-
-    if (response.status == 200 || response.status == 201) {
-        formData.delete('file')
-        uploadRef.value?.clearFiles()
-    }
+    await API.uploadImages('test', uploadRawFiles)
+    uploadRef.value?.clearFiles()
 }
 </script>

@@ -77,9 +77,12 @@
 
 <script lang="ts" setup>
 import { onMounted, Ref, ref } from 'vue'
+import API from '/@/api'
 const url = '/api/files/test'
 const update_url = '/api/files'
 const STATIC_SERVER = 'http://localhost:8080'
+
+
 
 interface ListItem {
     imgUrl: string
@@ -117,37 +120,23 @@ const onSearchImages = async() => {
 }
 
 const onDelImages = async() => {
-    
-    await fetch(url, {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            filenames: Array.from(selected.value)
-        })
-    })
+    const data = { filenames: Array.from(selected.value) }
+    await API.DELETE(url, { data })
 
     await loadImages(url)
 }
 
 const onDelImage = async(el) => {
     const { filename } = el.target.dataset
+    const data = { filenames: [filename] }
+    await API.DELETE(url, { data })
     
-    await fetch(url, {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            filenames: [filename]
-        })
-    })
     await loadImages(url)
 }
 
 const opCollection = (data: CollectionItem) => async(id: number) => {
-    await fetch(`${update_url}/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-    })
+    
+    await API.PUT(`${update_url}/${id}`, { data })
     await loadImages(url)
 }
 
@@ -157,9 +146,8 @@ const addToCollected = opCollection({ isCollected: true })
 
 const imageFun = (_loading: Ref<boolean>, _lists: Ref<ListItem[]>) => async(url: string, opts = {}) => {
     _loading.value = true
-    const response = await fetch(url, { ...opts })
-    const result = await response.json()
-    const images = result.data.map(image => {
+    const data = await API.GET(url, opts)
+    const images = data.map(image => {
         let [ originalName ] = image.originName.split('.')
         if (originalName.length > 15) {
             originalName = `${originalName.slice(0, 15)}...`

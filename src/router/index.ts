@@ -67,28 +67,35 @@ export const allowRouter:Array<IMenubarList> = [
                 meta: { title: '菜品管理', icon: 'el-icon-tools' },
                 children: [
                     {
-                        name: '菜品展示',
-                        path: 'shows',
+                        name: 'showFoods',
+                        path: '/content/foods/shows',
                         component: Components['ShowFoods'],
                         meta: { title: '菜品展示', icon: 'el-icon-tools' }
                     },
+                  
                     {
-                        name: '菜品详情',
-                        path: 'show',
+                        name: 'showFood',
+                        path: '/content/foods/show/:id',
                         component: Components['ShowFood'],
-                        meta: { title: '菜品展示', icon: 'el-icon-tools' }
+                        meta: { title: '菜品展示', icon: 'el-icon-tools', hidden: true }
                     },
                     {
-                        name: '添加菜品',
-                        path: 'create',
-                        component: Components['CreateFood'],
+                        name: 'createFood',
+                        path: '/content/foods/create',
+                        component: Components['CommonFood'],
                         meta: { title: '添加菜品', icon: 'el-icon-tools' }
                     },
                     {
-                        name: '修改菜品',
-                        path: 'update',
-                        component: Components['UpdateFood'],
-                        meta: { title: '修改菜品', icon: 'el-icon-tools' }
+                        name: 'updateFood',
+                        path: '/content/foods/update/:id',
+                        component: Components['CommonFood'],
+                        meta: { title: '修改菜品', icon: 'el-icon-tools', hidden: true }
+                    },
+                    {
+                        name: 'recycleBin',
+                        path: '/content/foods/recycle',
+                        component: Components['ShowFoods'],
+                        meta: { title: '菜品回收', icon: 'el-icon-tools' }
                     }
                 ]
             },

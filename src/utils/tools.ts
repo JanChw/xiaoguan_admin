@@ -186,3 +186,17 @@ export function decode(url: string): string {
 export function encode(url: string): string {
     return encodeURIComponent(encodeURIComponent(url))
 }
+
+export function toNumber(decimal: any) {
+    const { d, e , s } = decimal
+
+    if (Number.isNaN(s)) return NaN
+
+    let [integer, fraction] = d
+
+    if (!fraction) {
+        fraction = 0
+    }
+    
+    return (integer + fraction * (10 ** -7)) * s
+}

@@ -4,3 +4,4 @@ export interface ILocalStore {
     expires: number
     [propName: string]: any
 }
+
