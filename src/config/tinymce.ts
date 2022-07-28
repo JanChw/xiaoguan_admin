@@ -1,7 +1,6 @@
-import API from '/@/api'
-import { STATIC_SERVER } from './index'
+import Http from '/@/api/http'
 
-export const mykey = 'ywp9pdfho4awyfp9eq34q4k2fhlj7ks895dwo2fqguxaxa78'
+const { MY_STATIC_SERVER } = import.meta.env
 
 export const editorOption = {
     language:'zh_CN',
@@ -21,9 +20,9 @@ export const editorOption = {
         input.setAttribute('accept', 'image/*')
         input.onchange = async function() {
 
-            const [image] = await API.uploadImages('test', Array.from(input.files))
-            console.log(value, meta)
-            cb(`${STATIC_SERVER}${image.url}`, { title: image.filename })
+            const [image] = await Http.uploadImages('test', Array.from(input.files))
+
+            cb(`${MY_STATIC_SERVER}${image.url}`, { title: image.filename })
         }
 
         input.click()

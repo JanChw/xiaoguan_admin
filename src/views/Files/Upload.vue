@@ -28,7 +28,7 @@
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue'
-import API from '/@/api'
+import Http from '/@/api/http'
 import type { UploadInstance, UploadFiles, UploadFile } from 'element-plus'
 
 
@@ -46,7 +46,7 @@ const removeFile = async(uploadFile: UploadFile, uploadFiles: UploadFiles) => {
 }
 const submitUpload = async() => {
     const uploadRawFiles = _uploadFiles.map(uploadFile => uploadFile.raw)
-    await API.uploadImages('test', uploadRawFiles)
+    await Http.uploadImages('test', uploadRawFiles)
     uploadRef.value?.clearFiles()
 }
 </script>

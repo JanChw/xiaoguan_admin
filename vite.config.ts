@@ -21,6 +21,7 @@ const proxy = (list: [string, string][]) => {
 export default ({ command, mode }: ConfigEnv): UserConfigExport => {
     const root = process.cwd()
     const env = loadEnv(mode, root) as unknown as ImportMetaEnv
+
     const prodMock = true
     return {
         resolve: {
@@ -32,7 +33,7 @@ export default ({ command, mode }: ConfigEnv): UserConfigExport => {
         },
         server: {
             // proxy: env.VITE_PROXY ? proxy(JSON.parse(env.VITE_PROXY)) : {},
-            port: env.VITE_PORT,
+            port: env.MY_VITE_PORT,
             proxy: {
                 '/api': {
                     target: 'http://localhost:3000',
@@ -41,6 +42,7 @@ export default ({ command, mode }: ConfigEnv): UserConfigExport => {
                 }
             }
         },
+        envPrefix: 'MY_',
         build: {
             // sourcemap: true,
             manifest: true,

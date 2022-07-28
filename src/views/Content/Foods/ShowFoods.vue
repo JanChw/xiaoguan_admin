@@ -60,7 +60,7 @@
 import { ref, Ref, onMounted } from 'vue'
 
 import { useRoute } from 'vue-router'
-import API from '/@/api'
+import Http from '/@/api/http'
 import { toNumber } from '/@/utils/tools'
 import { Search } from '@element-plus/icons-vue'
 import { ElTable } from 'element-plus'
@@ -79,8 +79,7 @@ const handleSelectionChange = (val: Food[]) => {
 
 const handleSearch = async(search: string) => {
     console.log(search)
-    const _foods = await API.GET(`/api/foods/search?content=${search}`)
-    console.log(_foods)
+    const _foods = await Http.GET(`/api/foods/search?content=${search}`)
     _foods.forEach((item:Food) => {
         item.originPrice = toNumber(item.originPrice)
     })
@@ -88,29 +87,29 @@ const handleSearch = async(search: string) => {
 }
 
 const handleDelete = async(id: number) => {
-    await API.DELETE(`/api/foods/${id}`)
+    await Http.DELETE(`/api/foods/${id}`)
     loadFoods(foods)
 }
 
 const handleDeletes = async() => {
-    await API.DELETE('/api/foods', { data: { ids: selected.value } })
+    await Http.DELETE('/api/foods', { data: { ids: selected.value } })
     loadFoods(foods, 'recycle')
 }
 
 const handleRecover = async() => {
     console.log(selected)
-    await API.PUT('/api/foods', { data: { payload: { isDeleted: false }, ids: selected.value } })
+    await Http.PUT('/api/foods', { data: { payload: { isDeleted: false }, ids: selected.value } })
     loadFoods(foods, 'recycle')
 }
 
 const handleSoftDelete = async(id: number) => {
-    await API.PUT(`/api/foods/${id}`, { data: { isDeleted: true } })
+    await Http.PUT(`/api/foods/${id}`, { data: { isDeleted: true } })
     loadFoods(foods)
 }
 
 const handleSoftDeletes = async() => {
     console.log(selected)
-    await API.PUT('/api/foods', { data: { payload: { isDeleted: true }, ids: selected.value } })
+    await Http.PUT('/api/foods', { data: { payload: { isDeleted: true }, ids: selected.value } })
     loadFoods(foods)
 }
 
@@ -120,7 +119,7 @@ onMounted(async() => {
 })
 
 async function loadFoods(foods: Ref<Food[]>, type?: string) {
-    const data = await API.GET(`/api/foods?type=${type}`)
+    const data = await Http.GET(`/api/foods?type=${type}`)
     data.forEach((item:Food) => {
         item.originPrice = toNumber(item.originPrice)
     })

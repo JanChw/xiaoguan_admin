@@ -77,12 +77,12 @@
 
 <script lang="ts" setup>
 import { onMounted, Ref, ref } from 'vue'
-import API from '/@/api'
+import Http from '/@/api/http'
+
+const { MY_STATIC_SERVER } = import.meta.env
+
 const url = '/api/files/test'
 const update_url = '/api/files'
-const STATIC_SERVER = 'http://localhost:8080'
-
-
 
 interface ListItem {
     imgUrl: string
@@ -115,13 +115,12 @@ const onBatchToggleIndicator = () => {
 
 const onSearchImages = async() => {
     const _url = `${url}?name=${search.value}`
-    console.log(_url)
     await searchImagesByName(_url)
 }
 
 const onDelImages = async() => {
     const data = { filenames: Array.from(selected.value) }
-    await API.DELETE(url, { data })
+    await Http.DELETE(url, { data })
 
     await loadImages(url)
 }
@@ -129,14 +128,14 @@ const onDelImages = async() => {
 const onDelImage = async(el) => {
     const { filename } = el.target.dataset
     const data = { filenames: [filename] }
-    await API.DELETE(url, { data })
+    await Http.DELETE(url, { data })
     
     await loadImages(url)
 }
 
 const opCollection = (data: CollectionItem) => async(id: number) => {
     
-    await API.PUT(`${update_url}/${id}`, { data })
+    await Http.PUT(`${update_url}/${id}`, { data })
     await loadImages(url)
 }
 
@@ -144,15 +143,15 @@ const cancleFromCollected = opCollection({ isCollected: false })
 const addToCollected = opCollection({ isCollected: true })
 
 
-const imageFun = (_loading: Ref<boolean>, _lists: Ref<ListItem[]>) => async(url: string, opts = {}) => {
+const imageFun = (_loading: Ref<boolean>, _lists: Ref<ListItem[]>) => async(url: string) => {
     _loading.value = true
-    const data = await API.GET(url, opts)
+    const data = await Http.GET(url)
     const images = data.map(image => {
         let [ originalName ] = image.originName.split('.')
         if (originalName.length > 15) {
             originalName = `${originalName.slice(0, 15)}...`
         }
-        const imgUrl = `${STATIC_SERVER}${image.url}`
+        const imgUrl = `${MY_STATIC_SERVER}${image.url}`
         return { originalName, imgUrl, id:image.id, name: image.filename, isCollected: image.isCollected }
     })
     _lists.value = images

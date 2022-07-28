@@ -15,7 +15,7 @@ router.beforeEach(async(to, from) => {
     const { getStatus, getMenubar, getTags, setToken, logout, GenerateRoutes, getUser, concatAllowRoutes, changeTagNavList, addCachedViews, changeNocacheViewStatus } = useLayoutStore()
     // 修改页面title
     const reg = new RegExp(/^(.+)(\s\|\s.+)$/)
-    const appTitle = import.meta.env.VITE_APP_TITLE
+    const appTitle = import.meta.env.MY_VITE_APP_TITLE
     document.title = !to.meta.title
         ? appTitle
         : appTitle.match(reg) 

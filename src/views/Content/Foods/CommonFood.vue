@@ -33,7 +33,7 @@
                     <tiny-editor
                         id='editor'
                         v-model='food.detail'
-                        :api-key='mykey'
+                        :api-key='MY_KEY'
                         :init='editorOption'
                     />
                 </el-form-item>
@@ -89,13 +89,13 @@ import TinyEditor from '@tinymce/tinymce-vue'
 import type { UploadFile } from 'element-plus'
 import { reactive, ref, computed, onMounted, Ref } from 'vue'
 import { useRoute } from 'vue-router'
-import API from '/@/api'
-import { STATIC_SERVER } from '/@/config'
-import { mykey, editorOption } from '/@/config/tinymce'
+import Http from '/@/api/http'
+import { editorOption } from '/@/config/tinymce'
 import { toNumber } from '/@/utils/tools'
-
 import { Food } from '/@/type/models/food.interface'
 import { Spec } from '/@/type/models/spec.interface'
+
+const { MY_STATIC_SERVER, MY_KEY } = import.meta.env
 const route = useRoute()
 let food = reactive<Food>({
     name: '',
@@ -112,7 +112,7 @@ const spec = reactive<Spec>({
     name: '',
     price: ''
 })
-const image_url = computed(() => `${STATIC_SERVER}${food.imgUrl}`)
+const image_url = computed(() => `${MY_STATIC_SERVER}${food.imgUrl}`)
 
 const isUpdatePage = ref<boolean>(route.name === 'updateFood')
 
@@ -120,35 +120,35 @@ const isUpdatePage = ref<boolean>(route.name === 'updateFood')
 const onAddSpec = async() => {
     const isExisted = specs.value.some(({ name }) => name === spec.name)
     if (isExisted) throw new Error('属性名已存在')
-    await API.POST('/api/specs', { data: spec })
+    await Http.POST('/api/specs', { data: spec })
     Object.assign(spec, { name: '', price: '' })
     loadFood(food, specs)
 
 }
 
 const onDeleteSpec = async(id: number) => {
-    await API.DELETE(`/api/specs/${id}`)
+    await Http.DELETE(`/api/specs/${id}`)
     loadFood(food, specs)
 }
 
 const uploadImage = async(uploadFile: UploadFile) => {
-    const [image] = await API.uploadImages('test', [uploadFile.raw])
+    const [image] = await Http.uploadImages('test', [uploadFile.raw])
     food.imgUrl = image.url
 }
 
 const onUpdateFood = async(id: number, data: Partial<Food>) => {
-    const _food = await API.PUT(`/api/foods/${id}`, { data })
+    const _food = await Http.PUT(`/api/foods/${id}`, { data })
     _food.originPrice = toNumber(_food.originPrice)
     Object.assign(food, _food)
 }
 
 const onCreateFood = async() => {
     food.originPrice = Number(food.originPrice)
-    await API.POST('/api/foods', { data: food })
+    await Http.POST('/api/foods', { data: food })
 }
 
 async function loadFood(_food: Ref<Food>, _specs: Ref<Spec[]>) {
-    const { id, name, desc, detail, imgUrl, originPrice, specs } = await API.GET(`/api/foods/${route.params.id}`)
+    const { id, name, desc, detail, imgUrl, originPrice, specs } = await Http.GET(`/api/foods/${route.params.id}`)
     _specs.value = specs.map((spec: Spec) => {
         spec.price = toNumber(spec.price)
         return spec
@@ -157,7 +157,6 @@ async function loadFood(_food: Ref<Food>, _specs: Ref<Spec[]>) {
 }
 
 onMounted(async() => {
-    console.log(isUpdatePage.value)
     if (isUpdatePage.value) {
         await loadFood(food, specs)
     }
