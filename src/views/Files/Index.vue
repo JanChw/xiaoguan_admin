@@ -78,9 +78,7 @@
 <script lang="ts" setup>
 import { onMounted, Ref, ref } from 'vue'
 import Http from '/@/api/http'
-
 const { MY_STATIC_SERVER } = import.meta.env
-
 const url = '/api/files/test'
 const update_url = '/api/files'
 
@@ -120,22 +118,23 @@ const onSearchImages = async() => {
 
 const onDelImages = async() => {
     const data = { filenames: Array.from(selected.value) }
-    await Http.DELETE(url, { data })
-
+    await Http.deleteWithMessageBox(url, { data })
+    
     await loadImages(url)
 }
 
 const onDelImage = async(el) => {
     const { filename } = el.target.dataset
     const data = { filenames: [filename] }
-    await Http.DELETE(url, { data })
-    
-    await loadImages(url)
+    const [, isCancled] = await Http.deleteWithMessageBox(url, { data })
+
+    console.log(isCancled)
+    !isCancled && await loadImages(url)
 }
 
 const opCollection = (data: CollectionItem) => async(id: number) => {
     
-    await Http.PUT(`${update_url}/${id}`, { data })
+    await Http.put(`${update_url}/${id}`, { data })
     await loadImages(url)
 }
 
@@ -145,7 +144,7 @@ const addToCollected = opCollection({ isCollected: true })
 
 const imageFun = (_loading: Ref<boolean>, _lists: Ref<ListItem[]>) => async(url: string) => {
     _loading.value = true
-    const data = await Http.GET(url)
+    const data = await Http.get(url)
     const images = data.map(image => {
         let [ originalName ] = image.originName.split('.')
         if (originalName.length > 15) {

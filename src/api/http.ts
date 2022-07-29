@@ -1,5 +1,6 @@
 import imageCompression from 'browser-image-compression'
 import { compressOptions } from '/@/config/index'
+import { ElMessage, ElMessageBox } from 'element-plus'
 
 interface UrlOption {
     param?: number | string,
@@ -48,25 +49,61 @@ class Http {
 
         try {
             const response = await fetch(url, opts)
-            const result = await response.json()
-            if (!response.ok) { throw new Error(result.message) }
-            return result.data
-        } catch (error) {
-            if (error.name === 'AbortError') {
-                console.log('请求中断或超时')
-            } else {
-                console.log(error.message)
+            const { data, message } = await response.json()
+            if (!response.ok) { throw new Error(message) }
+            if(data == null || (Array.isArray(data) && !data.length)) {
+                ElMessage({
+                    type: 'warning',
+                    message: '数据为空'
+                })
             }
+            return data
+        } catch (error) {
+            const errMsg = error.name === 'AbortError' ? '请求中断或超时' : error.message
+
+            ElMessage({
+                type: 'error',
+                message: errMsg
+            })
         } 
     }
 
-    static GET = Http.Fetch('GET')
+    static get = Http.Fetch('GET')
 
-    static POST = Http.Fetch('POST')
+    static post = Http.Fetch('POST')
 
-    static PUT = Http.Fetch('PUT')
+    static put = Http.Fetch('PUT')
 
-    static DELETE = Http.Fetch('DELETE')
+    static delete = Http.Fetch('DELETE')
+
+    static deleteWithMessageBox = async function(url: string, options?: FetchOption): Promise<[any, boolean]> {
+        const result = await ElMessageBox.confirm(
+            '确认删除文件？',
+            '警告',
+            {
+                confirmButtonText: '确认',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }
+        ).catch(() => {
+            ElMessage({
+                type: 'info',
+                message: '取消删除'
+            })
+        })
+       
+        if (result === 'confirm') {
+            const data = await Http.DELETE(url, options)
+            ElMessage({
+                type: 'success',
+                message: '完成删除'
+            })
+            return [data, false]
+        }
+
+        return [null, true]
+
+    }
 
     static GetUploadFilesUrl = (bucketname: string) => {
         return `/Http/files/uploads/${bucketname}`
@@ -95,6 +132,7 @@ class Http {
     }
 
 }
+
 
 
 

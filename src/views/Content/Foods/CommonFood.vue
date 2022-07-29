@@ -120,15 +120,15 @@ const isUpdatePage = ref<boolean>(route.name === 'updateFood')
 const onAddSpec = async() => {
     const isExisted = specs.value.some(({ name }) => name === spec.name)
     if (isExisted) throw new Error('属性名已存在')
-    await Http.POST('/api/specs', { data: spec })
+    await Http.post('/api/specs', { data: spec })
     Object.assign(spec, { name: '', price: '' })
     loadFood(food, specs)
 
 }
 
 const onDeleteSpec = async(id: number) => {
-    await Http.DELETE(`/api/specs/${id}`)
-    loadFood(food, specs)
+    const [, isCancled] = await Http.deleteWithMessageBox(`/api/specs/${id}`)
+    !isCancled && loadFood(food, specs)
 }
 
 const uploadImage = async(uploadFile: UploadFile) => {
@@ -137,18 +137,18 @@ const uploadImage = async(uploadFile: UploadFile) => {
 }
 
 const onUpdateFood = async(id: number, data: Partial<Food>) => {
-    const _food = await Http.PUT(`/api/foods/${id}`, { data })
+    const _food = await Http.put(`/api/foods/${id}`, { data })
     _food.originPrice = toNumber(_food.originPrice)
     Object.assign(food, _food)
 }
 
 const onCreateFood = async() => {
     food.originPrice = Number(food.originPrice)
-    await Http.POST('/api/foods', { data: food })
+    await Http.post('/api/foods', { data: food })
 }
 
 async function loadFood(_food: Ref<Food>, _specs: Ref<Spec[]>) {
-    const { id, name, desc, detail, imgUrl, originPrice, specs } = await Http.GET(`/api/foods/${route.params.id}`)
+    const { id, name, desc, detail, imgUrl, originPrice, specs } = await Http.get(`/api/foods/${route.params.id}`)
     _specs.value = specs.map((spec: Spec) => {
         spec.price = toNumber(spec.price)
         return spec
