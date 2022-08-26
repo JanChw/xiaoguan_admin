@@ -31,64 +31,64 @@ import { ElNotification } from 'element-plus'
 import { validate } from '/@/utils/formExtend'
 
 const formRender = () => {
-    const { login } = useLayoutStore()
-    let form = reactive({
-        name: 'admin',
-        pwd: 'admin'
+  const { login } = useLayoutStore()
+  let form = reactive({
+    name: 'admin',
+    pwd: 'admin'
+  })
+  const ruleForm = ref(null)
+  const enterSubmit = (e:KeyboardEvent) => {
+    if(e.key === 'Enter') {
+      onSubmit()
+    }
+  }
+  const onSubmit = async() => {
+    let { name, pwd } = form
+    if(!await validate(ruleForm)) return
+    await login({ username: name, password: pwd })
+    ElNotification({
+      title: '欢迎',
+      message: '欢迎回来',
+      type: 'success'
     })
-    const ruleForm = ref(null)
-    const enterSubmit = (e:KeyboardEvent) => {
-        if(e.key === 'Enter') {
-            onSubmit()
+  }
+  const rules = reactive({
+    name: [
+      { validator: (rule: any, value: any, callback: (arg0?: Error|undefined) => void) => {
+        if (!value) {
+          return callback(new Error('用户名不能为空'))
         }
-    }
-    const onSubmit = async() => {
-        let { name, pwd } = form
-        if(!await validate(ruleForm)) return
-        await login({ username: name, password: pwd })
-        ElNotification({
-            title: '欢迎',
-            message: '欢迎回来',
-            type: 'success'
-        })
-    }
-    const rules = reactive({
-        name: [
-            { validator: (rule: any, value: any, callback: (arg0?: Error|undefined) => void) => {
-                if (!value) {
-                    return callback(new Error('用户名不能为空'))
-                }
-                callback()
-            }, trigger: 'blur' 
-            }
-        ],
-        pwd: [
-            { validator: (rule: any, value: any, callback: (arg0?: Error|undefined) => void) => {
-                if (!value) {
-                    return callback(new Error('密码不能为空'))
-                }
-                callback()
-            }, trigger: 'blur' 
-            }
-        ]
-    })
-    return {
-        form, 
-        onSubmit,
-        enterSubmit,
-        rules,
-        ruleForm
-    }
+        callback()
+      }, trigger: 'blur' 
+      }
+    ],
+    pwd: [
+      { validator: (rule: any, value: any, callback: (arg0?: Error|undefined) => void) => {
+        if (!value) {
+          return callback(new Error('密码不能为空'))
+        }
+        callback()
+      }, trigger: 'blur' 
+      }
+    ]
+  })
+  return {
+    form, 
+    onSubmit,
+    enterSubmit,
+    rules,
+    ruleForm
+  }
 }
 export default defineComponent({
-    name: 'Login',
-    setup() {
-        return {
-            labelCol: { span: 4 },
-            wrapperCol: { span: 14 },
-            ...formRender()
-        }
+  name: 'Login',
+  setup() {
+    return {
+      labelCol: { span: 4 },
+      wrapperCol: { span: 14 },
+      ...formRender()
     }
+  }
 })
 </script>
 

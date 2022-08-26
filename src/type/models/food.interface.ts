@@ -8,7 +8,7 @@ export interface Food {
 
   name: string;
 
-  desc: string;
+  description: string;
 
   detail: string;
 

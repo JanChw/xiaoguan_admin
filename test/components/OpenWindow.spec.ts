@@ -4,11 +4,11 @@ import OpenWindow from '/@/components/OpenWindow/index.vue'
 import ElementPlus from 'element-plus'
 
 describe('OpenWindow.vue', () => {
-    const wrapper: VueWrapper<ComponentPublicInstance> = mount({
-        components: {
-            OpenWindow
-        },
-        template: `
+  const wrapper: VueWrapper<ComponentPublicInstance> = mount({
+    components: {
+      OpenWindow
+    },
+    template: `
             <div class='content'>
                 <el-button @click='show = true'>
                     打开窗体
@@ -35,35 +35,35 @@ describe('OpenWindow.vue', () => {
                 </open-window>
             </div>
             `,
-        setup() {
-            const show = ref(false)
+    setup() {
+      const show = ref(false)
         
-            return {
-                show
-            }
-        }
-    }, {
-        global: {
-            plugins: [ElementPlus]
-        }
-    })
-    it('hide', async() => {
-        await nextTick()
-        expect(wrapper.find('.open-select').exists()).toBe(false)
-    })
-    it('click show', async() => {
-        await nextTick()
-        const btn = wrapper.find('.content .el-button')
-        btn.trigger('click')
-        await nextTick()
-        expect(wrapper.find('.open-select').exists()).toBe(true)
-    })
+      return {
+        show
+      }
+    }
+  }, {
+    global: {
+      plugins: [ElementPlus]
+    }
+  })
+  it('hide', async() => {
+    await nextTick()
+    expect(wrapper.find('.open-select').exists()).toBe(false)
+  })
+  it('click show', async() => {
+    await nextTick()
+    const btn = wrapper.find('.content .el-button')
+    btn.trigger('click')
+    await nextTick()
+    expect(wrapper.find('.open-select').exists()).toBe(true)
+  })
     
-    it('attr title', async() => {
-        await nextTick()
-        const btn = wrapper.find('.content .el-button')
-        btn.trigger('click')
-        await nextTick()
-        expect(wrapper.find('.open-select>div>span').text()).toEqual('选择页')
-    })
+  it('attr title', async() => {
+    await nextTick()
+    const btn = wrapper.find('.content .el-button')
+    btn.trigger('click')
+    await nextTick()
+    expect(wrapper.find('.open-select>div>span').text()).toEqual('选择页')
+  })
 })
